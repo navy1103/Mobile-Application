@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">About Me</string>
+    <string name="action_settings">Settings</string>
+    <string name="about_me">Name: Navy Nguyen\nGraduation in Fall\nMy Favorite Class: TCSS 432, TCSS 433, TCSS 450, TCSS 445</string>
+    <string name="title_activity_display_text">DisplayText</string>
+    <string name="title_activity_display_image">DisplayImage</string>
+</resources>
