@@ -21,7 +21,7 @@ import tacoma.uw.edu.tcss450.reminderproject.R;
  * A simple {@link Fragment} subclass.
  */
 public class RoutineAddFragment extends Fragment {
-    private RoutineAddListener mListener;
+    private RoutineListener mListener;
 
     private final static String COURSE_ADD_URL
             = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/addRoutine.php?";
@@ -30,14 +30,14 @@ public class RoutineAddFragment extends Fragment {
     private EditText mRoutineTimeEditText;
     private EditText mRoutineNoteEditText;
 
-    public interface RoutineAddListener {
+    public interface RoutineListener {
         void addRoutine(String url);
+        void updateRoutine(String url);
     }
 
     public RoutineAddFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,17 +65,16 @@ public class RoutineAddFragment extends Fragment {
         });
 
         return v;
-
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof RoutineAddListener) {
-            mListener = (RoutineAddListener) context;
+        if (context instanceof RoutineListener) {
+            mListener = (RoutineListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement RoutineAddListener");
+                    + " must implement RoutineListener");
         }
     }
 
@@ -85,12 +84,12 @@ public class RoutineAddFragment extends Fragment {
         try {
 
             String date = mRoutineDateEditText.getText().toString();
-            sb.append("toDate=");
+            sb.append("setDate=");
             sb.append(date);
 
 
             String time = mRoutineTimeEditText.getText().toString();
-            sb.append("&byTime=");
+            sb.append("&setTime=");
             sb.append(URLEncoder.encode(time, "UTF-8"));
 
 

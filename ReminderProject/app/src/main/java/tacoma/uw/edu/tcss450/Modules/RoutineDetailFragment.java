@@ -31,16 +31,11 @@ public class RoutineDetailFragment extends Fragment {
 
     public static final String ROUTINE_ITEM_SELECTED = "routineItemSelected";
     
-    private RoutineEditListener mListener;
+    private RoutineAddFragment.RoutineListener mListener;
 
     public RoutineDetailFragment() {
         // Required empty public constructor
     }
-
-    public interface RoutineEditListener {
-        void updateRoutine(String url);
-    }
-    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +45,7 @@ public class RoutineDetailFragment extends Fragment {
 
         getActivity().setTitle("Routine Details");
 
-        mRoutineDateEditText = (EditText) view.findViewById(R.id.routine_toDate);
+        mRoutineDateEditText = (EditText) view.findViewById(R.id.routine_date);
         mRoutineTimeEditText = (EditText) view.findViewById(R.id.routine_time);
         mRoutineNoteEditText = (EditText) view.findViewById(R.id.routine_note);
 
@@ -72,10 +67,10 @@ public class RoutineDetailFragment extends Fragment {
 
     public void updateView(Routine routine) {
         if (routine != null) {
-            mRoutineDateEditText.setText(routine.getRoutineToDate());
+            mRoutineDateEditText.setText(routine.getRoutineDate());
             mRoutineTimeEditText.setText(routine.getRoutineTime());
             mRoutineNoteEditText.setText(routine.getRoutineNote());
-            mRoutineID = routine.getID().toString();
+            mRoutineID = routine.getID();
 
             Log.i("Routine ID", mRoutineID);
         }
@@ -99,11 +94,11 @@ public class RoutineDetailFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof RoutineEditListener) {
-            mListener = (RoutineEditListener) context;
+        if (context instanceof RoutineAddFragment.RoutineListener) {
+            mListener = (RoutineAddFragment.RoutineListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement RoutineAddListener");
+                    + " must implement RoutineListener");
         }
     }
 
@@ -113,14 +108,12 @@ public class RoutineDetailFragment extends Fragment {
         try {
 
             String date = mRoutineDateEditText.getText().toString();
-            sb.append("toDate=");
+            sb.append("setDate=");
             sb.append(date);
 
-
             String time = mRoutineTimeEditText.getText().toString();
-            sb.append("&byTime=");
+            sb.append("&setTime=");
             sb.append(URLEncoder.encode(time, "UTF-8"));
-
 
             String note = mRoutineNoteEditText.getText().toString();
             sb.append("&note=");

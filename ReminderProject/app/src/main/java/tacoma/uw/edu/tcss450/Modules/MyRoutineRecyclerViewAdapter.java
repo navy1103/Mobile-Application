@@ -38,7 +38,7 @@ public class MyRoutineRecyclerViewAdapter extends RecyclerView.Adapter<MyRoutine
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getRoutineToDate());
+        holder.mIdView.setText(mValues.get(position).getRoutineDate());
         holder.mContentView.setText(mValues.get(position).getRoutineNote());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +67,7 @@ public class MyRoutineRecyclerViewAdapter extends RecyclerView.Adapter<MyRoutine
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.toDate);
+            mIdView = (TextView) view.findViewById(R.id.date);
             mContentView = (TextView) view.findViewById(R.id.note);
         }
 

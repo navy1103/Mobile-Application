@@ -26,9 +26,11 @@ import tacoma.uw.edu.tcss450.reminderproject.LoginActivity;
 import tacoma.uw.edu.tcss450.Modules.Reminder.Routine;
 import tacoma.uw.edu.tcss450.reminderproject.R;
 
-
+/**
+ * The MainActivity class is use to add, update reminders.
+ */
 public class MainActivity extends AppCompatActivity implements RoutineFragment.OnListFragmentInteractionListener,
-                            RoutineAddFragment.RoutineAddListener, RoutineDetailFragment.RoutineEditListener {
+        RoutineAddFragment.RoutineListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
                     .add(R.id.fragment_container, routineListFragment)
                     .commit();
         }
-
-
     }
 
     @Override
@@ -81,8 +81,7 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
         if (id == R.id.action_logout) {
             SharedPreferences sharedPreferences =
                     getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
-            sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false)
-                    .commit();
+            sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
 
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
@@ -109,17 +108,42 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
 
     }
 
+    /**
+     * Adding new reminder
+     * @param url is the URL which contains all information of new reminder
+     */
     @Override
     public void addRoutine(String url) {
-        AddRoutineTask task = new AddRoutineTask();
+        RoutineTask task = new RoutineTask("add");
         task.execute(new String[]{url.toString()});
 
         // Takes you back to the previous fragment by popping the current fragment out.
         getSupportFragmentManager().popBackStackImmediate();
-
     }
 
-    private class AddRoutineTask extends AsyncTask<String, Void, String> {
+    /**
+     * Updating new reminder
+     * @param url is the URL which contains all information of new reminder
+     */
+    @Override
+    public void updateRoutine(String url) {
+        RoutineTask task = new RoutineTask("update");
+        task.execute(new String[]{url.toString()});
+
+        // Takes you back to the previous fragment by popping the current fragment out.
+        getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    /**
+     * The AsyncTask class called RoutineTask that will allow us to call the
+     * service for add, update routines.
+     */
+    private class RoutineTask extends AsyncTask<String, Void, String> {
+        private final String task;
+
+        RoutineTask(String task){
+            this.task = task;
+        }
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -143,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
                     }
 
                 } catch (Exception e) {
-                    response = "Unable to add course, Reason: "
+                    response = "Unable to add routine, Reason: "
                             + e.getMessage();
                 } finally {
                     if (urlConnection != null)
@@ -163,6 +187,24 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
          */
         @Override
         protected void onPostExecute(String result) {
+            switch (task){
+                case "add":
+                    processAddRoutine(result);
+                    break;
+                case "update":
+                    processUpdateRoutine(result);
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        /**
+         * Add new routine into database
+         * @param result is the jsonObject from php file
+         */
+        private void processAddRoutine(String result) {
             // Something wrong with the network or the URL.
             try {
                 JSONObject jsonObject = new JSONObject(result);
@@ -182,61 +224,12 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
                         e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
-    }
-
-    @Override
-    public void updateRoutine(String url) {
-        UpdateRoutineTask task = new UpdateRoutineTask();
-        task.execute(new String[]{url.toString()});
-
-        // Takes you back to the previous fragment by popping the current fragment out.
-        getSupportFragmentManager().popBackStackImmediate();
-    }
-
-    private class UpdateRoutineTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... urls) {
-            String response = "";
-            HttpURLConnection urlConnection = null;
-            for (String url : urls) {
-                try {
-                    URL urlObject = new URL(url);
-                    urlConnection = (HttpURLConnection) urlObject.openConnection();
-
-                    InputStream content = urlConnection.getInputStream();
-
-                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                    String s = "";
-                    while ((s = buffer.readLine()) != null) {
-                        response += s;
-                    }
-
-                } catch (Exception e) {
-                    response = "Unable to add course, Reason: "
-                            + e.getMessage();
-                } finally {
-                    if (urlConnection != null)
-                        urlConnection.disconnect();
-                }
-            }
-            return response;
-        }
-
 
         /**
-         * It checks to see if there was a problem with the URL(Network) which is when an
-         * exception is caught. It tries to call the parse Method and checks to see if it was successful.
-         * If not, it displays the exception.
-         *
-         * @param result
+         * Update exist routine into database
+         * @param result is the jsonObject from php file
          */
-        @Override
-        protected void onPostExecute(String result) {
+        private void processUpdateRoutine(String result) {
             // Something wrong with the network or the URL.
             try {
                 JSONObject jsonObject = new JSONObject(result);
@@ -252,8 +245,7 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
                             .show();
                 }
             } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(), "Something wrong with the data" +
-                        e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Something wrong with the data" + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
     }

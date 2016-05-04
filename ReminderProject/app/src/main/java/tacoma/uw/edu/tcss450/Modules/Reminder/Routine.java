@@ -11,13 +11,13 @@ import java.util.List;
  * Routine class implement Serializable. This allows us to the pass the object as a parameter.
  */
 public class Routine implements Serializable {
-    private String mtoDate, mbyTime, mnote, mID;
+    private String msetDate, msetTime, mnote, mID;
     //These values must match the json names that we use on the web service.
-    public static final String TODATE = "toDate", BYTIME = "byTime", NOTE = "note", ID = "id";
+    public static final String TODATE = "setDate", BYTIME = "setTime", NOTE = "note", ID = "id";
 
-    Routine(String toDate, String byTime, String note, String id){
-        this.mtoDate = toDate;
-        this.mbyTime = byTime;
+    Routine(String setDate, String byTime, String note, String id){
+        this.msetDate = setDate;
+        this.msetTime = byTime;
         this.mnote = note;
         this.mID = id;
     }
@@ -49,8 +49,8 @@ public class Routine implements Serializable {
     }
 
 
-    public String getRoutineToDate() {
-        return mtoDate;
+    public String getRoutineDate() {
+        return msetDate;
     }
 
     public String getRoutineNote() {
@@ -58,7 +58,7 @@ public class Routine implements Serializable {
     }
 
     public String getRoutineTime() {
-        return mbyTime;
+        return msetTime;
     }
 
     public String getID() {return mID;}

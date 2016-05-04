@@ -76,7 +76,7 @@ public class RoutineFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             mRecyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
+            if (mColumnCount <= 0) {
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
@@ -102,7 +102,18 @@ public class RoutineFragment extends Fragment {
 
         }
 
+        rememberUser();
 
+        DownloadCoursesTask task = new DownloadCoursesTask();
+        task.execute(new String[]{ ROUTINES_URL });
+
+        return view;
+    }
+
+    /**
+     * Checking user is stored in LOGIN_FILE or not
+     */
+    private void rememberUser() {
         try {
             InputStream inputStream = getActivity().openFileInput(
                     getString(R.string.LOGIN_FILE));
@@ -122,13 +133,6 @@ public class RoutineFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-        DownloadCoursesTask task = new DownloadCoursesTask();
-        task.execute(new String[]{ ROUTINES_URL });
-
-        return view;
     }
 
 

@@ -17,7 +17,7 @@ import java.net.URLEncoder;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * The RegisterFragment class is the fragment to use to login
  */
 public class LoginFragment extends Fragment {
 
@@ -36,6 +36,8 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view =  inflater.inflate(R.layout.fragment_login, container, false);
+
+        getActivity().setTitle("MxN Reminder");
 
         logUsername = (EditText) view.findViewById(R.id.login_username);
         logPass = (EditText) view.findViewById(R.id.login_password);
@@ -99,6 +101,11 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    /**
+     * Build the URL to login base on the user's input
+     * @param v the fragment view
+     * @return URL as a string
+     */
     private String buildLoginUrl(View v) {
         StringBuilder sb = new StringBuilder(REGISTER_URL);
 
@@ -121,9 +128,13 @@ public class LoginFragment extends Fragment {
         return sb.toString();
     }
 
+    /**
+     * The login, register, and forget pasword actions listener
+     */
     public interface LoginAddListener {
         void login(String url);
         void register_link();
         void forget_password();
+        void register(String url);
     }
 }

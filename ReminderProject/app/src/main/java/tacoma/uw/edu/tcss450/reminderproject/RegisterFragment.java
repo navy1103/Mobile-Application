@@ -16,12 +16,12 @@ import java.net.URLEncoder;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * The RegisterFragment class is the fragment to use to register new user.
  */
 public class RegisterFragment extends Fragment {
     private final static String REGISTER_URL = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/register.php?";
 
-    private RegisterAddListener rListener;
+    private LoginFragment.LoginAddListener rListener;
 
     private EditText rUsername;
     private EditText rEmail;
@@ -33,12 +33,11 @@ public class RegisterFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_register, container, false);
 
-        getActivity().setTitle("Register");
+        getActivity().setTitle("Register");     //set title of the fragment
 
         rUsername = (EditText) v.findViewById(R.id.register_username);
         rEmail = (EditText) v.findViewById(R.id.register_email);
@@ -110,14 +109,19 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof RegisterAddListener) {
-            rListener = (RegisterAddListener) context;
+        if (context instanceof LoginFragment.LoginAddListener) {
+            rListener = (LoginFragment.LoginAddListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement RegisterAddListener");
         }
     }
 
+    /**
+     * Build the URL to register base on the user's input
+     * @param v the fragment view
+     * @return URL as a string
+     */
     private String buildRegisterUrl(View v) {
         StringBuilder sb = new StringBuilder(REGISTER_URL);
 
@@ -143,7 +147,4 @@ public class RegisterFragment extends Fragment {
         return sb.toString();
     }
 
-    public interface RegisterAddListener {
-        void register(String url);
-    }
 }

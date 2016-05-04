@@ -9,12 +9,14 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="200sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:gravity="center"
         android:layout_gravity="center"
-        android:text="MxN Reminder"
-        android:textSize="30dp" />
+        android:textColor="#E64A19"
+        android:textSize="50dp" />
 
     <EditText
         android:id="@+id/login_username"
@@ -22,7 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
         android:hint="Username"
-        android:textSize="15dp" />
+        android:textSize="20sp"
+        android:textAlignment="center"/>
 
     <EditText
         android:id="@+id/login_password"
@@ -30,34 +33,37 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/login_username"
         android:layout_below="@+id/login_username"
-        android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        android:textSize="15dp" />
+        android:textSize="20sp"
+        android:textAlignment="center"/>
 
     <Button
         android:id="@+id/login_btn"
-        android:layout_width="170dp"
+        android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_below="@id/login_password"
         android:layout_centerInParent="true"
         android:text="Login"
-        android:textSize="13dp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/register_link"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40sp"
         android:layout_below="@id/login_btn"
         android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textColor="#01579B"
         android:text="Don't have account yet? Register here!" />
 
     <TextView
         android:id="@+id/forget_password_link"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30sp"
         android:layout_below="@id/register_link"
         android:layout_centerInParent="true"
+        android:textColor="#01579B"
         android:text="Forget password? Reset password here!" />
 
 </RelativeLayout>

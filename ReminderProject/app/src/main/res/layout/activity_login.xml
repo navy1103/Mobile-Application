@@ -9,5 +9,4 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:id="@+id/login_container"
     tools:context="tacoma.uw.edu.tcss450.reminderproject.LoginActivity">
-
 </FrameLayout>
