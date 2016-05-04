@@ -48,7 +48,7 @@ public class SignInActivity extends AppCompatActivity implements LoginFragment.L
         if (networkInfo != null && networkInfo.isConnected()) {
             //Check if the login and password are valid
             //new LoginTask().execute(url);
-            //27.	Let’s store email and password in an internal file when login happens and show the contents in a Toast.
+            //Let’s store email and password in an internal file when login happens and show the contents in a Toast.
             try {
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
                         openFileOutput(getString(R.string.LOGIN_FILE)
