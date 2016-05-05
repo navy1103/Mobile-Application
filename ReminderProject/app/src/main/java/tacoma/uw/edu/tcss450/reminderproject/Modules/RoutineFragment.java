@@ -83,7 +83,7 @@ public class RoutineFragment extends Fragment {
         }
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)
-                getActivity().findViewById(R.id.fab);
+                getActivity().findViewById(R.id.add_float_btn);
         floatingActionButton.show();
 
 

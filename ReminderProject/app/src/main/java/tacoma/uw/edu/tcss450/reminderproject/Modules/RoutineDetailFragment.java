@@ -34,12 +34,12 @@ public class RoutineDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_routine_detail, container, false);
-        mtoDateView = (TextView) view.findViewById(R.id.routine_toDate);
+        mtoDateView = (TextView) view.findViewById(R.id.routine_date);
         mbyTimeView = (TextView) view.findViewById(R.id.routine_time);
         mnoteView = (TextView) view.findViewById(R.id.routine_note);
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)
-                getActivity().findViewById(R.id.fab);
+                getActivity().findViewById(R.id.add_float_btn);
         floatingActionButton.show();
 
         return view;

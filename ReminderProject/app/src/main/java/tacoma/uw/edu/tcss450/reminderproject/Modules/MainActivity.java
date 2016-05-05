@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
         setContentView(R.layout.activity_main);
 
         //Change the code for Floating Action Button listener to launch the fragment
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_float_btn);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

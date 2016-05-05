@@ -67,7 +67,7 @@ public class MyRoutineRecyclerViewAdapter extends RecyclerView.Adapter<MyRoutine
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.toDate);
+            mIdView = (TextView) view.findViewById(R.id.date);
             mContentView = (TextView) view.findViewById(R.id.note);
         }
 

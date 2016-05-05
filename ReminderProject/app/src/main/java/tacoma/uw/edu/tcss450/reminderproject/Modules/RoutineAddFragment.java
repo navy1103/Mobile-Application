@@ -50,7 +50,7 @@ public class RoutineAddFragment extends Fragment {
         mRoutineNoteEditText = (EditText) v.findViewById(R.id.add_routine_note);
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)
-                getActivity().findViewById(R.id.fab);
+                getActivity().findViewById(R.id.add_float_btn);
         floatingActionButton.hide();
 
         Button addCourseButton = (Button) v.findViewById(R.id.add_routine_btn);
