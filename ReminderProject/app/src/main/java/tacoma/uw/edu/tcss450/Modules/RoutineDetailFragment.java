@@ -1,6 +1,5 @@
 package tacoma.uw.edu.tcss450.Modules;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,20 +18,39 @@ import tacoma.uw.edu.tcss450.Modules.Reminder.Routine;
 import tacoma.uw.edu.tcss450.reminderproject.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The class is show the detail of reminder
  */
 public class RoutineDetailFragment extends Fragment {
-
+    /**
+     * The url to call webservice
+     */
     private static final String COURSE_UPDATE_URL = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/updateRoutine.php?";
+
+    /**
+     * The EditText variables to display and edit the reminder field
+     */
     private EditText mRoutineDateEditText;
     private EditText mRoutineTimeEditText;
     private EditText mRoutineNoteEditText;
+
+    /**
+     * The reminder id in the database
+     */
     private String mRoutineID;
 
+    /**
+     * The string which have all reminder information
+     */
     public static final String ROUTINE_ITEM_SELECTED = "routineItemSelected";
-    
+
+    /**
+     * RoutineListener interface object
+     */
     private RoutineAddFragment.RoutineListener mListener;
 
+    /**
+     * Constructor
+     */
     public RoutineDetailFragment() {
         // Required empty public constructor
     }
@@ -65,6 +83,10 @@ public class RoutineDetailFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Update the information of the selected reminder
+     * @param routine is the selected reminder
+     */
     public void updateView(Routine routine) {
         if (routine != null) {
             mRoutineDateEditText.setText(routine.getRoutineDate());
@@ -102,11 +124,15 @@ public class RoutineDetailFragment extends Fragment {
         }
     }
 
+    /**
+     * Build the url for webservice
+     * @param v is the current view
+     * @return the url as a string
+     */
     private String buildRoutineURL(View v) {
         StringBuilder sb = new StringBuilder(COURSE_UPDATE_URL);
 
         try {
-
             String date = mRoutineDateEditText.getText().toString();
             sb.append("setDate=");
             sb.append(date);

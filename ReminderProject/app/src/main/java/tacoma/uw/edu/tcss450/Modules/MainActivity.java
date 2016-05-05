@@ -39,16 +39,18 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
 
         //Change the code for Floating Action Button listener to launch the fragment
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_float_btn);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RoutineAddFragment routineAddFragment = new RoutineAddFragment();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, routineAddFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    RoutineAddFragment routineAddFragment = new RoutineAddFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, routineAddFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+        }
 
         if (savedInstanceState == null || getSupportFragmentManager().findFragmentById(R.id.list) == null) {
             RoutineFragment routineListFragment = new RoutineFragment();
@@ -58,6 +60,11 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
         }
     }
 
+    /**
+     * Create the option menu
+     * @param menu is a menu
+     * @return the menu is created
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -65,6 +72,11 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
         return true;
     }
 
+    /**
+     * When user choose the option in the menu
+     * @param item is menu option
+     * @return the action for that menu
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -81,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
         if (id == R.id.action_logout) {
             SharedPreferences sharedPreferences =
                     getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
-            sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
+            sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).apply();
 
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
@@ -117,8 +129,8 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
         RoutineTask task = new RoutineTask("add");
         task.execute(new String[]{url.toString()});
 
-        // Takes you back to the previous fragment by popping the current fragment out.
-        getSupportFragmentManager().popBackStackImmediate();
+//        // Takes you back to the previous fragment by popping the current fragment out.
+//        getSupportFragmentManager().popBackStackImmediate();
     }
 
     /**
@@ -129,9 +141,6 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
     public void updateRoutine(String url) {
         RoutineTask task = new RoutineTask("update");
         task.execute(new String[]{url.toString()});
-
-        // Takes you back to the previous fragment by popping the current fragment out.
-        getSupportFragmentManager().popBackStackImmediate();
     }
 
     /**
@@ -141,9 +150,14 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
     private class RoutineTask extends AsyncTask<String, Void, String> {
         private final String task;
 
+        /**
+         * Constructor of the RoutineTask class
+         * @param task is the string which determine the action
+         */
         RoutineTask(String task){
             this.task = task;
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -213,6 +227,9 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
                     Toast.makeText(getApplicationContext(), "Routine successfully added!"
                             , Toast.LENGTH_LONG)
                             .show();
+
+                    // Takes you back to the previous fragment by popping the current fragment out.
+                    getSupportFragmentManager().popBackStackImmediate();
                 } else {
                     Toast.makeText(getApplicationContext(), "Failed to add: "
                                     + jsonObject.get("error")
@@ -238,6 +255,8 @@ public class MainActivity extends AppCompatActivity implements RoutineFragment.O
                     Toast.makeText(getApplicationContext(), "Routine successfully added!"
                             , Toast.LENGTH_LONG)
                             .show();
+                    // Takes you back to the previous fragment by popping the current fragment out.
+                    getSupportFragmentManager().popBackStackImmediate();
                 } else {
                     Toast.makeText(getApplicationContext(), "Failed to update: "
                                     + jsonObject.get("error")

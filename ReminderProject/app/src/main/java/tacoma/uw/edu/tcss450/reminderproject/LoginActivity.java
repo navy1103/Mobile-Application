@@ -122,16 +122,25 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
 
     }
 
-
-
     /**
      * The AsyncTask class called LoginTask that will allow us to call the
      * service for login.
      */
     private class LoginTask extends AsyncTask<String, Void, String> {
+        /**
+         * The dialog variable
+         */
         private ProgressDialog loginDialog;
+
+        /**
+         * The string which tell what do to
+         */
         private String task;
 
+        /**
+         * Constructor
+         * @param task is the task
+         */
         LoginTask(String task){
             this.task = task;
         }
@@ -140,11 +149,11 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
         protected void onPreExecute() {
             super.onPreExecute();
             loginDialog = new ProgressDialog(LoginActivity.this);
-            loginDialog.setTitle("Contacting Servers");
+            //loginDialog.setTitle("Contacting Servers");
             if(task.equalsIgnoreCase("login")){
-                loginDialog.setMessage("Logging in ...");
+                loginDialog.setMessage("Authenticating ...");
             } else if(task.equalsIgnoreCase("register")){
-                loginDialog.setMessage("Register in ...");
+                loginDialog.setMessage("Registering ...");
             }
             loginDialog.setIndeterminate(false);
             loginDialog.setCancelable(true);

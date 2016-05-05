@@ -21,20 +21,35 @@ import tacoma.uw.edu.tcss450.reminderproject.R;
  * A simple {@link Fragment} subclass.
  */
 public class RoutineAddFragment extends Fragment {
+    /**
+     * The RoutineListener object
+     */
     private RoutineListener mListener;
 
+    /**
+     * The url to pass to the web service
+     */
     private final static String COURSE_ADD_URL
             = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/addRoutine.php?";
 
+    /**
+     * EditText variables
+     */
     private EditText mRoutineDateEditText;
     private EditText mRoutineTimeEditText;
     private EditText mRoutineNoteEditText;
 
+    /**
+     * The interface which uses to add, update reminder
+     */
     public interface RoutineListener {
         void addRoutine(String url);
         void updateRoutine(String url);
     }
 
+    /**
+     * Constructor
+     */
     public RoutineAddFragment() {
         // Required empty public constructor
     }
@@ -78,6 +93,11 @@ public class RoutineAddFragment extends Fragment {
         }
     }
 
+    /**
+     * Building the url for webservice
+     * @param v is the current fragment
+     * @return the url as string
+     */
     private String buildRoutineURL(View v) {
         StringBuilder sb = new StringBuilder(COURSE_ADD_URL);
 
@@ -87,11 +107,9 @@ public class RoutineAddFragment extends Fragment {
             sb.append("setDate=");
             sb.append(date);
 
-
             String time = mRoutineTimeEditText.getText().toString();
             sb.append("&setTime=");
             sb.append(URLEncoder.encode(time, "UTF-8"));
-
 
             String note = mRoutineNoteEditText.getText().toString();
             sb.append("&note=");

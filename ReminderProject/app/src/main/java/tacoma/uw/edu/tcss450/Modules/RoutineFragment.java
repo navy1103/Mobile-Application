@@ -28,15 +28,17 @@ import tacoma.uw.edu.tcss450.reminderproject.R;
 
 /**
  * A fragment representing a list of Items.
- * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
 public class RoutineFragment extends Fragment {
+    /**
+     * The url for webservice
+     */
     private static final String ROUTINES_URL = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/getRoutines.php?cmd=routines";
-    // TODO: Customize parameter argument names
+
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
+
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
@@ -48,8 +50,7 @@ public class RoutineFragment extends Fragment {
     public RoutineFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
+
     public static RoutineFragment newInstance(int columnCount) {
         RoutineFragment fragment = new RoutineFragment();
         Bundle args = new Bundle();
@@ -76,7 +77,7 @@ public class RoutineFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             mRecyclerView = (RecyclerView) view;
-            if (mColumnCount <= 0) {
+            if (mColumnCount <= 1 ) {
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
@@ -115,8 +116,7 @@ public class RoutineFragment extends Fragment {
      */
     private void rememberUser() {
         try {
-            InputStream inputStream = getActivity().openFileInput(
-                    getString(R.string.LOGIN_FILE));
+            InputStream inputStream = getActivity().openFileInput(getString(R.string.LOGIN_FILE));
 
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);

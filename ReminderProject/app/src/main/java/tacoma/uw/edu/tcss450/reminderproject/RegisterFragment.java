@@ -19,14 +19,23 @@ import java.net.URLEncoder;
  * The RegisterFragment class is the fragment to use to register new user.
  */
 public class RegisterFragment extends Fragment {
+    /**
+     * The URL for webservice when user want to register
+     */
     private final static String REGISTER_URL = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/register.php?";
 
+    /**
+     * The interface object
+     */
     private LoginFragment.LoginAddListener rListener;
 
     private EditText rUsername;
     private EditText rEmail;
     private EditText rPassword;
 
+    /**
+     * Constructor
+     */
     public RegisterFragment() {
         // Required empty public constructor
     }

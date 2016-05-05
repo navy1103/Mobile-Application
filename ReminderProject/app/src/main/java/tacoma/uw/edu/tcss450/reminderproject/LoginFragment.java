@@ -20,13 +20,22 @@ import java.net.URLEncoder;
  * The RegisterFragment class is the fragment to use to login
  */
 public class LoginFragment extends Fragment {
-
+    /**
+     * The interface object
+     */
     private LoginAddListener logListener;
+
+    /**
+     * The URL for webservice
+     */
     private final static String REGISTER_URL = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/login.php?";
 
     private EditText logUsername;
     private EditText logPass;
 
+    /**
+     * Constructor
+     */
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -132,9 +141,26 @@ public class LoginFragment extends Fragment {
      * The login, register, and forget pasword actions listener
      */
     public interface LoginAddListener {
+        /**
+         * Login action
+         * @param url is the url for webservice
+         */
         void login(String url);
+
+        /**
+         * Launch to Register fragment
+         */
         void register_link();
+
+        /**
+         * Forget password action
+         */
         void forget_password();
+
+        /**
+         * Register new user
+         * @param url is the url for webservice
+         */
         void register(String url);
     }
 }
