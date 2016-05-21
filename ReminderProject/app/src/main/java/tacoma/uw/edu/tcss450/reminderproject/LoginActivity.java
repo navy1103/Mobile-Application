@@ -2,14 +2,18 @@ package tacoma.uw.edu.tcss450.reminderproject;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -22,7 +26,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import tacoma.uw.edu.tcss450.Modules.MainActivity;
+import tacoma.uw.edu.tcss450.Reminder.AddReminderActivity;
+import tacoma.uw.edu.tcss450.Reminder.ReminderActivity;
+import tacoma.uw.edu.tcss450.Routines.RoutineActivity;
 
 /**
  * The LoiginActivity is the class which handles all the actions for login, register, and forget password.
@@ -30,6 +36,7 @@ import tacoma.uw.edu.tcss450.Modules.MainActivity;
 public class LoginActivity extends AppCompatActivity implements LoginFragment.LoginAddListener {
 
     private SharedPreferences mSharedPreferences;
+    private Boolean addMenu = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +50,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
                     .add(R.id.login_container, new LoginFragment())
                     .commit();
         } else {
-            Intent i = new Intent(this, MainActivity.class);
+//            Intent i = new Intent(this, RoutineActivity.class);
+            Intent i = new Intent(this, ReminderActivity.class);
             startActivity(i);
             finish();
         }
@@ -105,7 +113,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
             task.execute(new String[]{ url.toString() });
 
             // Takes you back to the previous fragment by popping the current fragment out.
-            getSupportFragmentManager().popBackStackImmediate();
+            //getSupportFragmentManager().popBackStackImmediate();
         }
         else {
             Toast.makeText(this, "No network connection available. Cannot authenticate user",
@@ -115,11 +123,95 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
     }
 
     /**
+     * Welcome dialog for new user. This dialog will pop up when user is successful registered.
+     * @param username is the username
+     */
+    private void welcome(final String username){
+        //final String name = username;
+        AlertDialog.Builder dial = new AlertDialog.Builder(this);
+        dial.setTitle("Successfully Register");
+        dial.setMessage("Hello " + username + ". Thank you for using this product.");
+
+        dial.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                autoLogin(username);
+            }
+        });
+
+        AlertDialog alertDialog = dial.create();
+        alertDialog.show();
+    }
+
+    /**
+     * After the welcome dialog disappear, app will auto login with username and password which new user used to register.
+     * @param username
+     */
+    private void autoLogin(String username){
+        rememberUser(username);
+        //Store User Information into local file
+        mSharedPreferences
+                .edit().putBoolean(getString(R.string.LOGGEDIN), true)
+                .commit();
+
+        //after successfully login
+//                    Intent main = new Intent(getApplicationContext(), RoutineActivity.class);
+        Intent main = new Intent(getApplicationContext(), ReminderActivity.class);
+        main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(main);
+        finish();
+    }
+
+    /**
+     * Store username in the LOGIN_FILE
+     * @param username
+     */
+    private void rememberUser(String username){
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+                    openFileOutput(getString(R.string.LOGIN_FILE), Context.MODE_PRIVATE));
+            outputStreamWriter.write(username);
+            //outputStreamWriter.write("password = " + pass);
+            outputStreamWriter.close();
+
+//                        Toast.makeText(getApplicationContext(),"Stored in File Successfully!", Toast.LENGTH_LONG)
+//                                .show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void forget_link(){
+        if(findViewById(R.id.login_container) != null){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.login_container, new ForgetFragment())
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
+    /**
      *
      */
     @Override
-    public void forget_password() {
+    public void forget_password(String url) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
+        if (networkInfo != null && networkInfo.isConnected()) {
+            LoginTask task = new LoginTask("forget");
+            task.execute(new String[]{ url.toString() });
+
+            // Takes you back to the previous fragment by popping the current fragment out.
+            //getSupportFragmentManager().popBackStackImmediate();
+        }
+        else {
+            Toast.makeText(this, "No network connection available. Check your connection.",
+                    Toast.LENGTH_SHORT) .show();
+            return;
+        }
     }
 
     /**
@@ -154,6 +246,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
                 loginDialog.setMessage("Authenticating ...");
             } else if(task.equalsIgnoreCase("register")){
                 loginDialog.setMessage("Registering ...");
+            } else if(task.equalsIgnoreCase("forget")){
+                loginDialog.setMessage("Authenticating ...");
             }
             loginDialog.setIndeterminate(false);
             loginDialog.setCancelable(true);
@@ -180,11 +274,12 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
                 } catch (Exception e) {
                     if(task.equalsIgnoreCase("login")){
                         response = "Unable to Login, Reason: " + e.getMessage();
+                    } else if(task.equalsIgnoreCase("register")){
+                        response = "Unable to Register, Reason: " + e.getMessage();
+                    } else if(task.equalsIgnoreCase("forget")) {
+                        response = "Unable to Reset Password, Reason: " + e.getMessage();
                     }
 
-                    if(task.equalsIgnoreCase("register")){
-                        response = "Unable to Register, Reason: " + e.getMessage();
-                    }
                 } finally {
                     if (urlConnection != null)
                         urlConnection.disconnect();
@@ -213,6 +308,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
                 case "register":
                     processRegister(result);
                     break;
+                case "forget":
+                    processForget(result);
                 default:
                     break;
             }
@@ -229,31 +326,16 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
                 //Log.i("LoginResult", status);
 
                 if (status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), "Successfully Login!"
-                            , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Successfully Login!", Toast.LENGTH_LONG).show();
 
-                    //Store User Information into local file
-                    mSharedPreferences
-                            .edit().putBoolean(getString(R.string.LOGGEDIN), true)
-                            .commit();
+                    autoLogin(jsonObject.getString("username"));
 
-                    rememberUser(jsonObject.getString("username"));
-
-                    //after successfully login
-                    Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                    main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(main);
-                    finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Failed to login: "
-                                    + jsonObject.get("error")
-                            , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),jsonObject.get("error").toString(), Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(), "Something wrong with the data" +
-                        e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG).show();
             }
-
             loginDialog.dismiss();
         }
 
@@ -266,41 +348,39 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
                 JSONObject jsonObject = new JSONObject(result);
                 String status = (String) jsonObject.get("result");
                 if (status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), "Successfully Register!"
-                            , Toast.LENGTH_LONG)
-                            .show();
+                    Toast.makeText(getApplicationContext(), "Successfully Register!", Toast.LENGTH_LONG).show();
+
+                    welcome(jsonObject.getString("username"));
+
                 } else {
-                    Toast.makeText(getApplicationContext(), "Failed to register: "
-                                    + jsonObject.get("error")
-                            , Toast.LENGTH_LONG)
-                            .show();
+                    Toast.makeText(getApplicationContext(), jsonObject.get("error").toString(), Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(), "Something wrong with the data" +
-                        e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
-
             loginDialog.dismiss();
         }
 
-        /**
-         * Store username in the LOGIN_FILE
-         * @param username
-         */
-        private void rememberUser(String username){
+
+        private void processForget(String result) {
             try {
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
-                        openFileOutput(getString(R.string.LOGIN_FILE), Context.MODE_PRIVATE));
-                outputStreamWriter.write(username);
-                //outputStreamWriter.write("password = " + pass);
-                outputStreamWriter.close();
+                JSONObject jsonObject = new JSONObject(result);
+                String status = jsonObject.getString("result");
+                //Log.i("LoginResult", status);
 
-//                        Toast.makeText(getApplicationContext(),"Stored in File Successfully!", Toast.LENGTH_LONG)
-//                                .show();
+                if (status.equals("success")) {
+                    Toast.makeText(getApplicationContext(), "Successfully Receive Your Information!"
+                            , Toast.LENGTH_LONG).show();
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                    //autoLogin(jsonObject.getString("username"));
+
+                } else {
+                    Toast.makeText(getApplicationContext(),jsonObject.get("error").toString(), Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
+            loginDialog.dismiss();
         }
     }
 }

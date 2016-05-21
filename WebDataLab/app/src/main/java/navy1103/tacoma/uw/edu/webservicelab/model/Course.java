@@ -16,7 +16,7 @@ import navy1103.tacoma.uw.edu.webservicelab.R;
  * Course class implement Serializable. This allows us to the pass the object as a parameter.
  */
 public class Course implements Serializable {
-    String mcourseID, mshortDescription, mlongDescription, mprereqs;
+    private String mcourseID, mshortDescription, mlongDescription, mprereqs;
 
     //These values must match the json names that we use on the web service.
     public static final String ID = "id", SHORT_DESC = "shortDesc", LONG_DESC = "longDesc", PRE_REQS = "prereqs";
@@ -64,8 +64,9 @@ public class Course implements Serializable {
 
     public String getLongDescription() { return mlongDescription;    }
 
-    public String getPrereqs() { return mprereqs;    }
+    public String getPrereqs() { return mprereqs;}
 
-
-
+    public void setCourseId(String courseId) {
+        this.mcourseID = courseId;
+    }
 }

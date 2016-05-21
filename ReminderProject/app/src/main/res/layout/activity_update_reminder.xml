@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="tacoma.uw.edu.tcss450.Reminder.UpdateReminderActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <CalendarView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/reminderUpdateCalendar">
+
+            </CalendarView>
+
+            <TimePicker
+                android:id="@+id/reminderUpdateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:timePickerMode="spinner" />
+
+            <EditText
+                android:id="@+id/reminderUpdateNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Reminder Note"
+                android:inputType="text"/>
+
+            <EditText
+                android:id="@+id/reminderUpdateEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Email address"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/reminderUpdatePhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:ems="10"
+                android:hint="Phone number"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/reminderUpdateLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location"
+                android:inputType="text"/>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

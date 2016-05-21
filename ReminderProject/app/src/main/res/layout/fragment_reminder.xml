@@ -5,17 +5,22 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/note"
-        android:layout_width="wrap_content"
+        android:id="@+id/reminder_note"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
-
 
     <TextView
-        android:id="@+id/routine_time"
+        android:id="@+id/reminder_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Del"
+        android:id="@+id/delete_btn"/>
 </LinearLayout>

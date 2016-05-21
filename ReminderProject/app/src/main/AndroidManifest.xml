@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -18,9 +19,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="tacoma.uw.edu.tcss450.Modules.MainActivity">
+        <activity
+            android:name="tacoma.uw.edu.tcss450.Routines.RoutineActivity"
+            android:parentActivityName=".LoginActivity" />
 
+        <!--
+        activity android:name="tacoma.uw.edu.tcss450.Reminder.ReminderActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+        <activity android:name="tacoma.uw.edu.tcss450.Reminder.MoreInfoNotication"
+            android:parentActivityName="tacoma.uw.edu.tcss450.Reminder.ReminderActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tacoma.uw.edu.tcss450.Reminder.ReminderActivity"/>
+        </activity
+        -->
+
+        <receiver
+            android:name="tacoma.uw.edu.tcss450.Alarm.AlarmReceiver"
+            android:process=":remote" />
+
+        <activity android:name="tacoma.uw.edu.tcss450.Reminder.ReminderActivity" />
+        <activity android:name="tacoma.uw.edu.tcss450.Reminder.AddReminderActivity" />
+        <activity android:name="tacoma.uw.edu.tcss450.Reminder.UpdateReminderActivity" />
     </application>
 
 </manifest>

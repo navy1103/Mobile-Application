@@ -44,7 +44,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view =  inflater.inflate(R.layout.fragment_login, container, false);
+        View view =  inflater.inflate(R.layout.fragment_login, container, false);
 
         getActivity().setTitle("MxN Reminder");
 
@@ -95,6 +95,14 @@ public class LoginFragment extends Fragment {
 
         });
 
+        //Forget password/id action
+        TextView forget = (TextView) view.findViewById(R.id.forget_password_link);
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((LoginActivity) getActivity()).forget_link();
+            }
+        });
         return view;
     }
 
@@ -119,8 +127,9 @@ public class LoginFragment extends Fragment {
         StringBuilder sb = new StringBuilder(REGISTER_URL);
 
         try {
+            sb.append("tag=login");
             String username = logUsername.getText().toString();
-            sb.append("username=");
+            sb.append("&username=");
             sb.append(username);
 
             String pass = logPass.getText().toString();
@@ -153,9 +162,14 @@ public class LoginFragment extends Fragment {
         void register_link();
 
         /**
+         * Launch to forget password / id fragment
+         */
+        void forget_link();
+
+        /**
          * Forget password action
          */
-        void forget_password();
+        void forget_password(String url);
 
         /**
          * Register new user

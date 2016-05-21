@@ -22,7 +22,7 @@ public class RegisterFragment extends Fragment {
     /**
      * The URL for webservice when user want to register
      */
-    private final static String REGISTER_URL = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/register.php?";
+    private final static String REGISTER_URL = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/login.php?";
 
     /**
      * The interface object
@@ -135,8 +135,9 @@ public class RegisterFragment extends Fragment {
         StringBuilder sb = new StringBuilder(REGISTER_URL);
 
         try {
+            sb.append("tag=register");
             String username = rUsername.getText().toString();
-            sb.append("username=");
+            sb.append("&username=");
             sb.append(username);
 
             String email = rEmail.getText().toString();

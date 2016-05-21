@@ -3,19 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="tacoma.uw.edu.tcss450.Modules.RoutineAddFragment">
+    tools:context="tacoma.uw.edu.tcss450.Routines.RoutineAddFragment">
 
-    <EditText
-        android:id="@+id/add_routine_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Set the date for reminder" />
+   <TimePicker
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/routine_time_picker"
+       android:timePickerMode="spinner"
+       android:layout_gravity="center_horizontal">
 
-    <EditText
-        android:id="@+id/add_routine_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Set the time for reminder" />
+   </TimePicker>
 
     <EditText
         android:id="@+id/add_routine_note"

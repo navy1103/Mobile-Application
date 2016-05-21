@@ -3,17 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="tacoma.uw.edu.tcss450.Modules.RoutineDetailFragment">
+    tools:context="tacoma.uw.edu.tcss450.Routines.RoutineDetailFragment">
 
-    <EditText
-        android:layout_width="match_parent"
+    <TimePicker
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/routine_date" />
+        android:id="@+id/routine_time_edit"
+        android:timePickerMode="spinner"
+        android:layout_gravity="center_horizontal">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/routine_time" />
+    </TimePicker>
 
     <EditText
         android:layout_width="match_parent"
