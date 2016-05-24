@@ -113,8 +113,8 @@ public class AddReminderActivity extends AppCompatActivity {
         //When user choose save option
         if (id == R.id.action_add) {
 
-            if(dateChange){
-                reminderID += mTimePicker.getHour() +mTimePicker.getMinute();
+            if(dateChange == true){
+                reminderID += mTimePicker.getHour() + mTimePicker.getMinute();
             } else {
                 reminderID = targetCal.get(Calendar.YEAR) + targetCal.get(Calendar.MONTH) + targetCal.get(Calendar.DAY_OF_MONTH)
                         + mTimePicker.getHour() +mTimePicker.getMinute();

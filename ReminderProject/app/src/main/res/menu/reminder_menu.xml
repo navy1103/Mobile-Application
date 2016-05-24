@@ -2,22 +2,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/action_add"
-        android:orderInCategory="100"
-        android:title="Add"
-        app:showAsAction="ifRoom" />
+    <group android:id="@+id/group_add">
+        <item
+            android:id="@+id/action_add"
+            android:title="Add"
+            app:showAsAction="ifRoom" />
+    </group>
 
-    <item android:id="@+id/action_profile"
-        android:orderInCategory="100"
-        android:title="Profile"
-        app:showAsAction="never"
-        />
+    <group android:id="@+id/group_user">
+        <item
+            android:id="@+id/action_user"
+            android:title=""
+            app:showAsAction="never" />
+    </group>
 
-    <item
-        android:id="@+id/action_logout"
-        android:orderInCategory="101"
-        android:title="Log Out"
-        app:showAsAction="never"/>
+    <group android:id="@+id/group_log">
+        <item
+            android:id="@+id/action_profile"
+            android:title="Profile"
+            app:showAsAction="never" />
 
+        <item
+            android:id="@+id/action_logout"
+            android:title="Log Out"
+            app:showAsAction="never" />
+    </group>
 </menu>

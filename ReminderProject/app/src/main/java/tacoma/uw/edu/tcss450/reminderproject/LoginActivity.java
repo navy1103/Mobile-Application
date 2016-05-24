@@ -12,8 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -26,9 +24,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import tacoma.uw.edu.tcss450.Reminder.AddReminderActivity;
 import tacoma.uw.edu.tcss450.Reminder.ReminderActivity;
-import tacoma.uw.edu.tcss450.Routines.RoutineActivity;
 
 /**
  * The LoiginActivity is the class which handles all the actions for login, register, and forget password.
@@ -36,7 +32,6 @@ import tacoma.uw.edu.tcss450.Routines.RoutineActivity;
 public class LoginActivity extends AppCompatActivity implements LoginFragment.LoginAddListener {
 
     private SharedPreferences mSharedPreferences;
-    private Boolean addMenu = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +75,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
         else {
             Toast.makeText(this, "No network connection available. Cannot authenticate user",
                     Toast.LENGTH_SHORT) .show();
-            return;
         }
         // Takes you back to the previous fragment by popping the current fragment out.
         //getSupportFragmentManager().popBackStackImmediate();
@@ -90,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
      * When user click on the register text on the login screen that will launch the register fragment.
      */
     @Override
-    public void register_link() {
+    public void registerTextLink() {
         if(findViewById(R.id.login_container) != null){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.login_container, new RegisterFragment())
@@ -118,9 +112,10 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
         else {
             Toast.makeText(this, "No network connection available. Cannot authenticate user",
                     Toast.LENGTH_SHORT) .show();
-            return;
         }
     }
+
+
 
     /**
      * Welcome dialog for new user. This dialog will pop up when user is successful registered.
@@ -145,14 +140,12 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
 
     /**
      * After the welcome dialog disappear, app will auto login with username and password which new user used to register.
-     * @param username
+     * @param username is the username
      */
     private void autoLogin(String username){
         rememberUser(username);
         //Store User Information into local file
-        mSharedPreferences
-                .edit().putBoolean(getString(R.string.LOGGEDIN), true)
-                .commit();
+        mSharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), true).apply();
 
         //after successfully login
 //                    Intent main = new Intent(getApplicationContext(), RoutineActivity.class);
@@ -164,7 +157,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
 
     /**
      * Store username in the LOGIN_FILE
-     * @param username
+     * @param username is the username
      */
     private void rememberUser(String username){
         try {
@@ -183,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
     }
 
     @Override
-    public void forget_link(){
+    public void forgetTextLink(){
         if(findViewById(R.id.login_container) != null){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.login_container, new ForgetFragment())
@@ -196,7 +189,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
      *
      */
     @Override
-    public void forget_password(String url) {
+    public void forgetPassword(String url) {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
@@ -210,8 +203,22 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
         else {
             Toast.makeText(this, "No network connection available. Check your connection.",
                     Toast.LENGTH_SHORT) .show();
-            return;
         }
+    }
+
+    public void confirmResetPass(){
+        //Show alert dialog
+        android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(this);
+        alert.setMessage("Successfully reset your password! Please check your email and login with your new password!");
+
+        alert.setNegativeButton("OK",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                getSupportFragmentManager().popBackStackImmediate();
+            }
+        });
+        android.app.AlertDialog alertDialog = alert.create();
+        alertDialog.show();
     }
 
     /**
@@ -242,12 +249,10 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
             super.onPreExecute();
             loginDialog = new ProgressDialog(LoginActivity.this);
             //loginDialog.setTitle("Contacting Servers");
-            if(task.equalsIgnoreCase("login")){
+            if(task.equalsIgnoreCase("login") || task.equalsIgnoreCase("forget") || task.equalsIgnoreCase("changPass")){
                 loginDialog.setMessage("Authenticating ...");
             } else if(task.equalsIgnoreCase("register")){
                 loginDialog.setMessage("Registering ...");
-            } else if(task.equalsIgnoreCase("forget")){
-                loginDialog.setMessage("Authenticating ...");
             }
             loginDialog.setIndeterminate(false);
             loginDialog.setCancelable(true);
@@ -266,7 +271,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
                     InputStream content = urlConnection.getInputStream();
 
                     BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                    String s = "";
+                    String s;
                     while ((s = buffer.readLine()) != null) {
                         response += s;
                     }
@@ -296,7 +301,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
          * exception is caught. It tries to call the parse Method and checks to see if it was successful.
          * If not, it displays the exception.
          *
-         * @param result
+         * @param result is the JSON object
          */
         @Override
         protected void onPostExecute(String result) {
@@ -369,10 +374,9 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
                 //Log.i("LoginResult", status);
 
                 if (status.equals("success")) {
-                    Toast.makeText(getApplicationContext(), "Successfully Receive Your Information!"
-                            , Toast.LENGTH_LONG).show();
-
-                    //autoLogin(jsonObject.getString("username"));
+//                    Toast.makeText(getApplicationContext(), "Successfully Reset Your Password!"
+//                            , Toast.LENGTH_LONG).show();
+                    confirmResetPass();
 
                 } else {
                     Toast.makeText(getApplicationContext(),jsonObject.get("error").toString(), Toast.LENGTH_LONG).show();

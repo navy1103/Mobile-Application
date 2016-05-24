@@ -4,48 +4,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="tacoma.uw.edu.tcss450.User.ChangePassFragment">
+    tools:context="tacoma.uw.edu.tcss450.User.UserProfileFragment">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Current Password" />
+        android:text="First Name"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="Current password"
-        android:id="@+id/old_password"/>
+        android:hint="First Name"
+        android:id="@+id/profile_first_name"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Password" />
+        android:text="Last Name"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="New password"
-        android:id="@+id/new_password"/>
+        android:hint="Last Name"
+        android:id="@+id/profile_last_name"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Confirm new Password" />
+        android:text="Email"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="Confirm new password"
-        android:id="@+id/confirm_password"/>
+        android:hint="Last Name"
+        android:id="@+id/profile_email"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Password"
-        android:id="@+id/change_pass_btn"/>
+        android:id="@+id/profile_pass_btn"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:id="@+id/profile_update_btn"/>
 
 </LinearLayout>

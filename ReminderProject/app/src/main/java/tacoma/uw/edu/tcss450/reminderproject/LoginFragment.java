@@ -28,7 +28,7 @@ public class LoginFragment extends Fragment {
     /**
      * The URL for webservice
      */
-    private final static String REGISTER_URL = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/login.php?";
+    private final static String LOGIN_URL = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/login.php?";
 
     private EditText logUsername;
     private EditText logPass;
@@ -49,6 +49,8 @@ public class LoginFragment extends Fragment {
         getActivity().setTitle("MxN Reminder");
 
         logUsername = (EditText) view.findViewById(R.id.login_username);
+        logUsername.requestFocus();
+
         logPass = (EditText) view.findViewById(R.id.login_password);
 
         Button signInButton = (Button) view.findViewById(R.id.login_btn);
@@ -90,7 +92,7 @@ public class LoginFragment extends Fragment {
         reg.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((LoginActivity) getActivity()).register_link();
+                ((LoginActivity) getActivity()).registerTextLink();
             }
 
         });
@@ -100,7 +102,7 @@ public class LoginFragment extends Fragment {
         forget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((LoginActivity) getActivity()).forget_link();
+                ((LoginActivity) getActivity()).forgetTextLink();
             }
         });
         return view;
@@ -124,13 +126,13 @@ public class LoginFragment extends Fragment {
      * @return URL as a string
      */
     private String buildLoginUrl(View v) {
-        StringBuilder sb = new StringBuilder(REGISTER_URL);
+        StringBuilder sb = new StringBuilder(LOGIN_URL);
 
         try {
             sb.append("tag=login");
             String username = logUsername.getText().toString();
             sb.append("&username=");
-            sb.append(username);
+            sb.append(URLEncoder.encode(username, "UTF-8"));
 
             String pass = logPass.getText().toString();
             sb.append("&password=");
@@ -159,17 +161,18 @@ public class LoginFragment extends Fragment {
         /**
          * Launch to Register fragment
          */
-        void register_link();
+        void registerTextLink();
 
         /**
          * Launch to forget password / id fragment
          */
-        void forget_link();
+        void forgetTextLink();
 
         /**
          * Forget password action
+         * @param url is the url for webservice
          */
-        void forget_password(String url);
+        void forgetPassword(String url);
 
         /**
          * Register new user

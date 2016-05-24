@@ -11,10 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.net.URLEncoder;
 
@@ -23,7 +20,7 @@ import java.net.URLEncoder;
  */
 public class ForgetFragment extends Fragment {
     /**
-     * The URL for webservice when user want to register
+     * The URL for webservice when user want to reset password
      */
     private final static String FORGET_URL = "http://cssgate.insttech.washington.edu/~navy1103/Reminder/login.php?";
     private EditText fEmail;
@@ -46,6 +43,7 @@ public class ForgetFragment extends Fragment {
         getActivity().setTitle("Forget Password or Username");
 
         fEmail = (EditText) view.findViewById(R.id.forget_email);
+        fEmail.requestFocus();
 
         Button confirm = (Button) view.findViewById(R.id.forget_confirm_btn);
         confirm.setOnClickListener(new View.OnClickListener(){
@@ -63,7 +61,7 @@ public class ForgetFragment extends Fragment {
                     return;
                 }
                 String url = buildRegisterUrl(v);
-                rListener.forget_password(url);
+                rListener.forgetPassword(url);
             }
         });
         return view;

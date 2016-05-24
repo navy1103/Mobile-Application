@@ -47,6 +47,7 @@
         <activity android:name="tacoma.uw.edu.tcss450.Reminder.ReminderActivity" />
         <activity android:name="tacoma.uw.edu.tcss450.Reminder.AddReminderActivity" />
         <activity android:name="tacoma.uw.edu.tcss450.Reminder.UpdateReminderActivity" />
+        <activity android:name="tacoma.uw.edu.tcss450.User.UserProfile"></activity>
     </application>
 
 </manifest>
