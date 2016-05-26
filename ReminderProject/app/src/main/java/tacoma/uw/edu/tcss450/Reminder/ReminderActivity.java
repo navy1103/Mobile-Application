@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,6 +65,7 @@ public class ReminderActivity extends AppCompatActivity implements ReminderListF
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.reminder_menu, menu);
         menu.findItem(R.id.action_user).setTitle(USERNAME);
+        menu.findItem(R.id.action_user).setIcon(R.drawable.profile_pic);
         return true;
     }
 
@@ -86,6 +88,10 @@ public class ReminderActivity extends AppCompatActivity implements ReminderListF
                 main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(main);
                 finish();
+                return true;
+
+            case R.id.action_share:
+                
                 return true;
 
             case R.id.action_logout:

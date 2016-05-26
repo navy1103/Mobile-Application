@@ -5,8 +5,9 @@
     <group android:id="@+id/group_add">
         <item
             android:id="@+id/action_add"
-            android:title="Add"
-            app:showAsAction="ifRoom" />
+            android:title=""
+            app:showAsAction="ifRoom"
+            android:icon="@drawable/add_event"/>
     </group>
 
     <group android:id="@+id/group_user">

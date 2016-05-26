@@ -23,8 +23,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/reminderAddCalendar">
-
             </CalendarView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="REMIND ME AT "/>
 
             <TimePicker
                 android:id="@+id/reminderTimePicker"

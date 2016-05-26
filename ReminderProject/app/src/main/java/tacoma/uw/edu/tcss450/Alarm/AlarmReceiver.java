@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import tacoma.uw.edu.tcss450.Reminder.AddReminderActivity;
 import tacoma.uw.edu.tcss450.Reminder.ReminderActivity;
-import tacoma.uw.edu.tcss450.Routines.RoutineActivity;
 import tacoma.uw.edu.tcss450.reminderproject.R;
 
 /**
@@ -27,7 +25,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 new Intent[]{new Intent(context, ReminderActivity.class)}, 0 );
 
         NotificationCompat.Builder mBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.notification_icon)
+                .setSmallIcon(R.drawable.alert)
+                .setColor(0xff000000)
                 .setContentTitle("Reminder")
                 .setContentText(bundle.getString("note"));
 
@@ -39,4 +38,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.i("Get update id", bundle.getString("id"));
         notifManager.notify(Integer.parseInt(bundle.getString("id")), mBuilder.build());
     }
+
+//    private int getNotificationIcon() {
+//        boolean useWhiteIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
+//        return useWhiteIcon ? R.drawable.logo : R.drawable.logo;
+//    }
 }
