@@ -23,6 +23,7 @@ public class Reminder implements Serializable {
 
     /**
      * The constructor
+     * @param id of reminder
      * @param date of reminder
      * @param hour of reminder
      * @param min of reminder
@@ -30,10 +31,10 @@ public class Reminder implements Serializable {
      * @param email of reminder
      * @param phone of reminder
      * @param location of reminder
-     * @param id of reminder
      * @param username of reminder
      */
-    Reminder(String date, String hour, String min, String note, String email, String phone, String location, String id, String username){
+    Reminder(String id, String date, String hour, String min, String note, String email, String phone, String location, String username){
+        this.rID = id;
         this.rDate = date;
         this.rHour = hour;
         this.rMin = min;
@@ -41,7 +42,6 @@ public class Reminder implements Serializable {
         this.rEmail = email;
         this.rPhone = phone;
         this.rLocation = location;
-        this.rID = id;
         this.rUsername = username;
     }
 
@@ -60,11 +60,11 @@ public class Reminder implements Serializable {
 
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject obj = arr.getJSONObject(i);
-                    Reminder reminder = new Reminder(obj.getString(Reminder.DATE),
-                            obj.getString(Reminder.HOUR), obj.getString(Reminder.MIN),
-                            obj.getString(Reminder.NOTE), obj.getString(Reminder.EMAIL),
-                            obj.getString(Reminder.PHONE), obj.getString(Reminder.LOCATION),
-                            obj.getString(Reminder.ID), obj.getString(Reminder.USERNAME));
+                    Reminder reminder = new Reminder(obj.getString(Reminder.ID),
+                            obj.getString(Reminder.DATE), obj.getString(Reminder.HOUR),
+                            obj.getString(Reminder.MIN), obj.getString(Reminder.NOTE),
+                            obj.getString(Reminder.EMAIL), obj.getString(Reminder.PHONE),
+                            obj.getString(Reminder.LOCATION), obj.getString(Reminder.USERNAME));
                     routinesList.add(reminder);
                 }
             } catch (JSONException e) {

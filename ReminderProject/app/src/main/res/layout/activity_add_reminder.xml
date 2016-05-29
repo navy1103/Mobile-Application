@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="REMIND ME IN "/>
+                android:text="Remind me in"/>
 
             <DatePicker
                 android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="REMIND ME AT "/>
+                android:text="Remind me at "/>
 
             <TimePicker
                 android:id="@+id/reminderTimePicker"

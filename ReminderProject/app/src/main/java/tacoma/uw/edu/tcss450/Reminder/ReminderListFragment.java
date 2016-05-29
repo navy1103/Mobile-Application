@@ -22,6 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import tacoma.uw.edu.tcss450.Reminder.model.ReminderDB;
 import tacoma.uw.edu.tcss450.reminderproject.R;
 import tacoma.uw.edu.tcss450.Reminder.model.Reminder;
 
@@ -43,8 +44,11 @@ public class ReminderListFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
+    private ReminderDB mReminderDB;
+    private List<Reminder> mReminderList;
 
-     /**
+
+    /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
@@ -100,6 +104,13 @@ public class ReminderListFragment extends Fragment {
                     "No network connection available. Cannot display courses",
                     Toast.LENGTH_SHORT) .show();
 
+            if (mReminderDB == null) {
+                mReminderDB = new ReminderDB(getActivity());
+            }
+            if (mReminderList == null) {
+                mReminderList = mReminderDB.getReminder();
+            }
+            mRecyclerView.setAdapter(new MyReminderRecyclerViewAdapter(mReminderList, mListener));
         }
 
         DownloadCoursesTask task = new DownloadCoursesTask();
@@ -223,22 +234,26 @@ public class ReminderListFragment extends Fragment {
             // Everything is good, show the list of courses.
             if (!reminderList.isEmpty()) {
                 mRecyclerView.setAdapter(new MyReminderRecyclerViewAdapter(reminderList, mListener));
-//                if (mCourseDB == null) {
-//                    mCourseDB = new CourseDB(getActivity());
-//                }
-//
-//                // Delete old data so that you can refresh the local
-//                // database with the network data.
-//                mCourseDB.deleteCourses();
-//
-//                // Also, add to the local database
-//                for (int i=0; i<courseList.size(); i++) {
-//                    Course course = courseList.get(i);
-//                    mCourseDB.insertCourse(course.getCourseId(),
-//                            course.getShortDescription(),
-//                            course.getLongDescription(),
-//                            course.getPrereqs());
-//                }
+
+                if (mReminderDB == null) {
+                    mReminderDB = new ReminderDB(getActivity());
+                }
+
+                // Delete old data so that you can refresh the local
+                // database with the network data.
+                mReminderDB.deleteReminder();
+
+
+                // Also, add to the local database
+                for (int i=0; i<reminderList.size(); i++) {
+                    Reminder reminder = reminderList.get(i);
+                    mReminderDB.insertReminder(reminder.getReminderID(),
+                            reminder.getDate(), reminder.getReminderHour(),
+                            reminder.getReminderMin(), reminder.getReminderNote(),
+                            reminder.getReminderEmail(), reminder.getReminderPhone(),
+                            reminder.getReminderLocation(), reminder.getUsername());
+                }
+
             }
         }
 
